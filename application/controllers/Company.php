@@ -44,16 +44,14 @@ else{
 
 public function login_view(){
 
-$this->load->view("company/login.php");
+$this->load->view("company/company_profile.php");
 
 }
 
 function login_company(){
   $company_login=array(
-
     'company_email'=>$this->input->post('company_email'),
     'company_password'=>md5($this->input->post('company_password'))
-
   );
   $data=$this->Company_model->login_company($company_login['company_email'],$company_login['company_password']);
     if($data)
