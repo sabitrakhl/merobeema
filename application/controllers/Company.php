@@ -10,7 +10,7 @@ public function __construct(){
 
 public function index()
 {
-$this->load->view("Register.php");
+$this->load->view("company/register.php");
 }
 
 public function register_company(){
@@ -44,43 +44,41 @@ else{
 
 public function login_view(){
 
-$this->load->view("Login.php");
+$this->load->view("company/login.php");
 
 }
 
 function login_company(){
   $company_login=array(
 
-  'company_email'=>$this->input->post('company_email'),
-  'company_password'=>md5($this->input->post('company_password'))
+    'company_email'=>$this->input->post('company_email'),
+    'company_password'=>md5($this->input->post('company_password'))
 
-    );
+  );
+  $data=$this->Company_model->login_company($company_login['company_email'],$company_login['company_password']);
+    if($data)
+    {
+      $this->session->set_userdata('company_id',$data['company_id']);
+      $this->session->set_userdata('company_email',$data['company_email']);
+      $this->session->set_userdata('company_name',$data['company_name']);
+      $this->session->set_userdata('company_address',$data['company_address']);
+      $this->session->set_userdata('company_phone',$data['company_phone']);
 
-    $data=$this->Company_model->login_company($company_login['company_email'],$company_login['company_password']);
-      if($data)
-      {
-        $this->session->set_companydata($data);
-        // $this->session->set_companydata('company_id',$data['company_id']);
-        // $this->session->set_companydata('company_email',$data['company_email']);
-        // $this->session->set_companydata('company_name',$data['company_name']);
-        // $this->session->set_companydata('company_address',$data['company_address']);
-        // $this->session->set_companydata('company_phone',$data['company_phone']);
+      $this->load->view('company/company_profile.php');
 
-        $this->load->view('company_profile.php');
+    }
+    else{
+      $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
+      $this->load->view("company/login.php");
 
-      }
-      else{
-        $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
-        $this->load->view("Login.php");
-
-      }
+    }
 
 
 }
 
 function company_profile(){
 
-$this->load->view('Company_profile.php');
+$this->load->view('company/company_profile.php');
 
 }
 public function company_logout(){

@@ -57,3 +57,7 @@ $route['company/register-company'] = 'Company/register_company';
 $route['company/login-view'] = 'Company/login_view';
 $route['company/login-company'] = 'Company/login_company';
 
+$route['admin/register'] = 'Admin/register';
+$route['admin/login'] = 'Admin/login';
+$route['admin/detail'] = 'Admin/detail';
+
