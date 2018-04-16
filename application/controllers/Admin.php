@@ -70,7 +70,7 @@ class Admin extends CI_Controller {
 
   public function admin_logout(){
     $this->session->sess_destroy();
-    redirect('admin/login', 'refresh');
+    redirect(base_url().'admin', 'refresh');
   }
 
   public function loadView($page_name, $data) {

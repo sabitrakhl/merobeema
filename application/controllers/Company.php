@@ -68,7 +68,7 @@ class Company extends CI_Controller {
 
     public function company_logout() {
         $this->session->sess_destroy();
-        redirect('company', 'refresh');
+        redirect(base_url().'company', 'refresh');
     }
 
     public function loadView($page_name, $data) {
