@@ -4,3 +4,4 @@ RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.gif|\.jpeg|\.bmp|\.PNG|\.JPG|\.GIF|\
 RewriteCond %{REQUEST_URI}  !(\.css|\.js|\.eot|\.svg|\.ttf|\.woff|\.woff2|\.php)$
 RewriteRule ^(.*)$  index.php [QSA]
 </IfModule>
+

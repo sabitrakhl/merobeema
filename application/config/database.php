@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'  => 'mysql:host=localhost; dbname=merobeema; charset=utf8;',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => '',
+	'password' => 'toor',
 	'database' => 'merobeema',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',

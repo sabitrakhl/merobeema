@@ -10,7 +10,8 @@ class Admin extends CI_Controller {
 
   public function index()
   {
-    $this->load->view("admin/register.php");
+    $data = [];
+    $this->loadView('login', $data);
   }
 
   public function register(){
@@ -32,8 +33,9 @@ class Admin extends CI_Controller {
     }
   }
 
-  public function login(){
-    $this->load->view("admin/login.php");
+  public function register_view(){
+    $data = [];
+    $this->loadView('register', $data);
   }
 
   function detail(){
@@ -42,26 +44,39 @@ class Admin extends CI_Controller {
       'password'=>md5($this->input->post('password'))
     );
     $data=$this->Admin_model->login_admin($admin_login['email'],$admin_login['password']);
-      if($data)
-      {
-        $this->session->set_userdata('admin_id',$data['id']);
-        $this->session->set_userdata('admin_email',$data['email']);
-        $this->load->view('admin/detail.php');
-      }
-      else{
-        $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
-        $this->load->view("admin/login.php");
 
-      }
+    if($data)
+    {
+      $this->session->set_userdata('admin_id',$data['id']);
+      redirect(base_url() . 'admin/profile', 'refresh');
+    }
+    else{
+      $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
+      redirect(base_url() . 'admin/login', 'refresh');
+
+    }
   }
 
-  function admin_profile(){
-    $this->load->view('admin/detail.php');
-  }
+  public function profile() {
+        $data['admin_id'] = $this->session->userdata('admin_id');
+        if (!$this->session->userdata('admin_id')) {
+            redirect('admin');
+        }
+
+        $data['admin_details'] = $this->Admin_model->list_admin($data['admin_id']);
+        $this->loadView('detail', $data);
+    }
+
 
   public function admin_logout(){
     $this->session->sess_destroy();
     redirect('admin/login', 'refresh');
+  }
+
+  public function loadView($page_name, $data) {
+      $this->load->view('home/template/header');
+      $this->load->view('admin/' . $page_name, $data);
+      $this->load->view('home/template/footer');
   }
 }
 ?>

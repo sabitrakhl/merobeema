@@ -5,12 +5,12 @@ class Company extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->helper('url');
-        $this->load->model('Company_model');
-//        $this->sessionCheck();
+        $this->load->model('Company_model');    
     }
 
     public function index() {
-        $this->load->view("company/register.php");
+        $data = [];
+        $this->loadView('login', $data);
     }
 
     public function register_company() {
@@ -22,14 +22,13 @@ class Company extends CI_Controller {
             'company_address' => $this->input->post('company_address'),
             'company_phone' => $this->input->post('company_phone')
         );
-        print_r($company);
 
         $email_check = $this->Company_model->email_check($company['company_email']);
 
         if ($email_check) {
             $this->Company_model->register_company($company);
             $this->session->set_flashdata('success_msg', 'Registered successfully.Now login to your account.');
-            redirect('company/login_view');
+            redirect('company');
         } else {
 
             $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
@@ -37,10 +36,9 @@ class Company extends CI_Controller {
         }
     }
 
-    public function login_view() {
-
-//$this->load->view("company/company_profile.php"); blunder mistake :P
-        $this->load->view("company/login.php");
+    public function register_view() {
+        $data = [];
+        $this->loadView('register', $data);
     }
 
     function login_company() {
@@ -51,33 +49,32 @@ class Company extends CI_Controller {
         $data = $this->Company_model->login_company($company_login['company_email'], $company_login['company_password']);
         if ($data) {
             $this->session->set_userdata('company_id', $data['company_id']);
-//            $this->session->set_userdata('company_email', $data['company_email']);
-//            $this->session->set_userdata('company_name', $data['company_name']);
-//            $this->session->set_userdata('company_address', $data['company_address']);
-//            $this->session->set_userdata('company_phone', $data['company_phone']);
             redirect(base_url() . 'company/company-profile', 'refresh');
-//            redirect("company/company-profile", refresh);
-//      $this->load->view('company/company_profile.php');
         } else {
             $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
-            redirect(base_url() . 'company/login-view', 'refresh');
-//            $this->load->view("company/login.php");
+            redirect(base_url() . 'company', 'refresh');
         }
     }
 
     public function company_profile() {
         $data['company_id'] = $this->session->userdata('company_id');
         if (!$this->session->userdata('company_id')) {
-            redirect('company/login-view');
+            redirect('company');
         }
 
         $data['company_details'] = $this->Company_model->list_company($data['company_id']);
-        $this->load->view('company/company_profile.php', $data);
+        $this->loadView('company_profile', $data);
     }
 
     public function company_logout() {
         $this->session->sess_destroy();
-        redirect('company/login_view', 'refresh');
+        redirect('company', 'refresh');
+    }
+
+    public function loadView($page_name, $data) {
+        $this->load->view('home/template/header');
+        $this->load->view('company/' . $page_name, $data);
+        $this->load->view('home/template/footer');
     }
 
 }
