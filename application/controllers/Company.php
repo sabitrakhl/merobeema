@@ -49,7 +49,7 @@ class Company extends CI_Controller {
         $data = $this->Company_model->login_company($company_login['company_email'], $company_login['company_password']);
         if ($data) {
             $this->session->set_userdata('company_id', $data['company_id']);
-            redirect(base_url() . 'company/company-profile', 'refresh');
+            redirect(base_url() . 'policy/list', 'refresh');
         } else {
             $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
             redirect(base_url() . 'company', 'refresh');
@@ -64,6 +64,15 @@ class Company extends CI_Controller {
 
         $data['company_details'] = $this->Company_model->list_company($data['company_id']);
         $this->loadView('company_profile', $data);
+    }
+
+    public function company_list() {
+        if (!$this->session->userdata('admin_id')) {
+            redirect(base_url().'admin', 'refresh');
+        }
+
+        $data['companies'] = $this->Company_model->list_all_company();
+        $this->loadView('list', $data);
     }
 
     public function company_logout() {

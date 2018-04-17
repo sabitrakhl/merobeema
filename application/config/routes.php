@@ -57,8 +57,9 @@ $route['translate_uri_dashes'] = FALSE;
 $route['company/register-company'] = 'Company/register_company';
 $route['company/register-view'] = 'Company/register_view';
 $route['company/login-company'] = 'Company/login_company';
-
-$route['company/company-profile'] = 'Company/company_profile';
+// $route['company/company-profile'] = 'Company/company_profile';
+$route['company/list'] = 'Company/company_list';
+$route['company/company-profile/(:num)'] = 'Company/company_profile/$1';
 
 $route['admin/register'] = 'Admin/register';
 $route['admin/register-view'] = 'Admin/register_view';

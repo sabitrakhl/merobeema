@@ -48,7 +48,7 @@ class Admin extends CI_Controller {
     if($data)
     {
       $this->session->set_userdata('admin_id',$data['id']);
-      redirect(base_url() . 'admin/profile', 'refresh');
+      redirect(base_url() . 'company/list', 'refresh');
     }
     else{
       $this->session->set_flashdata('error_msg', 'Error occured,Try again.');

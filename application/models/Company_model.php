@@ -18,6 +18,17 @@ class Company_model extends CI_model {
         }
     }
 
+    public function list_all_company() {
+        $this->db->select('*');
+        $this->db->from('company');
+        $query = $this->db->get();
+        if ($query) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
     public function login_company($email, $pass) {
         $this->db->select('*');
         $this->db->from('company');

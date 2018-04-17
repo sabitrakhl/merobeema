@@ -20,6 +20,7 @@ class Policy extends CI_Controller {
     public function add() {
         $policy = array(
             'name' => $this->input->post('name'),
+            'company_id' => $this->session->userdata('company_id'),
             'type_id' => $this->input->post('type_id'),
             'c_id' => $this->input->post('c_id'),
             'inv_per_year' => $this->input->post('inv_per_year'),
@@ -32,17 +33,17 @@ class Policy extends CI_Controller {
         if ($name_check) {
             $this->Policy_model->insert_policy($policy);
             $this->session->set_flashdata('success_msg', 'Policy added successfully');
-            redirect('policy/detail');
+            redirect(base_url().'policy/list', 'refresh');
         } else {
             $this->session->set_flashdata('error_msg', 'Error occured,Try again.');
-            redirect('policy');
+            redirect(base_url().'policy', 'refresh');
         }
     }
 
     public function policy_list(){
         $data['company_id'] = $this->session->userdata('company_id');
         if (!$this->session->userdata('company_id')) {
-            redirect('company');
+            redirect(base_url().'company', 'refresh');
         }
 
         $data['policies'] = $this->Policy_model->list_company_policy($data['company_id']);
