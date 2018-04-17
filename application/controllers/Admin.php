@@ -60,7 +60,7 @@ class Admin extends CI_Controller {
   public function profile() {
         $data['admin_id'] = $this->session->userdata('admin_id');
         if (!$this->session->userdata('admin_id')) {
-            redirect('admin');
+            redirect(base_url().'admin', 'refresh');
         }
 
         $data['admin_details'] = $this->Admin_model->list_admin($data['admin_id']);

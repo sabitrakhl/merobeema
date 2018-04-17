@@ -59,7 +59,7 @@ class Company extends CI_Controller {
     public function company_profile() {
         $data['company_id'] = $this->session->userdata('company_id');
         if (!$this->session->userdata('company_id')) {
-            redirect('company');
+            redirect(base_url().'admin', 'refresh');
         }
 
         $data['company_details'] = $this->Company_model->list_company($data['company_id']);

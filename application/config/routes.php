@@ -67,3 +67,4 @@ $route['admin/profile'] = 'Admin/profile';
 
 $route['policy/add'] = 'Policy/add';
 $route['policy/detail'] = 'Policy/detail';
+$route['policy/list'] = 'Policy/policy_list';

@@ -7,10 +7,10 @@ class Policy_model extends CI_model {
         $this->db->insert('policy', $policy);
     }
 
-    public function list_policy($id) {
+    public function list_company_policy($id) {
         $this->db->select('*');
         $this->db->from('policy');
-        $this->db->where('policy_id', $id);
+        $this->db->where('company_id', $id);
         $query = $this->db->get();
         if ($query) {
             return $query->result();

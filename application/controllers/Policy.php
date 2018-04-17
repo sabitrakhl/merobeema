@@ -9,14 +9,19 @@ class Policy extends CI_Controller {
     }
 
     public function index() {
-        $this->loadView('add');
+        if (!$this->session->userdata('company_id')) {
+            redirect(base_url().'company', 'refresh');
+        }
+
+        $data = [];
+        $this->loadView('add', $data);
     }
 
     public function add() {
         $policy = array(
             'name' => $this->input->post('name'),
             'type_id' => $this->input->post('type_id'),
-            'c_id' => md5($this->input->post('c_id')),
+            'c_id' => $this->input->post('c_id'),
             'inv_per_year' => $this->input->post('inv_per_year'),
             'term_expected_return' => $this->input->post('term_expected_return'),
             'min_age' => $this->input->post('min_age'),
@@ -24,7 +29,6 @@ class Policy extends CI_Controller {
         );
 
         $name_check = $this->Policy_model->name_check($policy['name']);
-        echo $name_check;
         if ($name_check) {
             $this->Policy_model->insert_policy($policy);
             $this->session->set_flashdata('success_msg', 'Policy added successfully');
@@ -35,9 +39,19 @@ class Policy extends CI_Controller {
         }
     }
 
-    public function loadView($page_name) {
+    public function policy_list(){
+        $data['company_id'] = $this->session->userdata('company_id');
+        if (!$this->session->userdata('company_id')) {
+            redirect('company');
+        }
+
+        $data['policies'] = $this->Policy_model->list_company_policy($data['company_id']);
+        $this->loadView('list', $data);
+    }
+
+    public function loadView($page_name, $data) {
         $this->load->view('home/template/header');
-        $this->load->view('policy/' . $page_name);
+        $this->load->view('policy/' . $page_name, $data);
         $this->load->view('home/template/footer');
     }
 }
